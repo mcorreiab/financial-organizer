@@ -1,4 +1,4 @@
-import SignUp from "./signUp";
+import SignUp from "./signup";
 
 export default {
   component: SignUp,

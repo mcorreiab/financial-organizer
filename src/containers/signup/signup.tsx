@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
+import { CreateUser } from "@/model/user";
 
 const Label = styled.label`
   font-weight: 500;
@@ -40,6 +41,15 @@ const SignUp: React.FunctionComponent = () => {
 
   const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const payload: CreateUser = { username, password };
+    fetch("/api/signup", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
   };
 
   return (
@@ -97,7 +107,9 @@ const SignUp: React.FunctionComponent = () => {
                 onChange={changePassword}
               />
             </Label>
-            <Button colorScheme="green">Sign Up</Button>
+            <Button type="submit" colorScheme="green" onClick={onSubmit}>
+              Sign Up
+            </Button>
           </Form>
         </GridItem>
       </Grid>

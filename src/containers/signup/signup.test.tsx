@@ -13,23 +13,21 @@ test("send user data when form is filled", async () => {
   );
 
   const username = "username";
-  userEvent.type(usernameInput, username);
+  await userEvent.type(usernameInput, username);
 
   const passwordInput = await screen.findByPlaceholderText(
     "Insert your password"
   );
 
   const password = "password";
-  userEvent.type(passwordInput, password);
+  await userEvent.type(passwordInput, password);
 
-  const submitButton = await screen.findByText("Sign up");
-  userEvent.click(submitButton);
+  const submitButton = await screen.findByText("Sign Up");
+  await userEvent.click(submitButton);
 
-  waitFor(() => {
-    const payload: CreateUser = { username, password };
-    expect(mockFetch).toHaveBeenCalledWith("/api/signup", {
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
+  const payload: CreateUser = { username, password };
+  expect(mockFetch).toHaveBeenCalledWith("/api/signup", {
+    method: "POST",
+    body: JSON.stringify(payload),
   });
 });

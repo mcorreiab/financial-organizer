@@ -8,22 +8,15 @@ test("send user data when form is filled", async () => {
   global.fetch = mockFetch;
   render(<Signup />);
 
-  const usernameInput = await screen.findByPlaceholderText(
-    "Insert your username"
-  );
-
   const username = "username";
-  await userEvent.type(usernameInput, username);
 
-  const passwordInput = await screen.findByPlaceholderText(
-    "Insert your password"
-  );
+  await typeUsername(username);
 
   const password = "password";
-  await userEvent.type(passwordInput, password);
 
-  const submitButton = await screen.findByText("Sign Up");
-  await userEvent.click(submitButton);
+  await typePassword(password);
+
+  await clickOnSignUpButton();
 
   const payload: CreateUser = { username, password };
   expect(mockFetch).toHaveBeenCalledWith("/api/signup", {
@@ -31,3 +24,50 @@ test("send user data when form is filled", async () => {
     body: JSON.stringify(payload),
   });
 });
+
+test("Show an error message when username is empty", async () => {
+  render(<Signup />);
+  await typeUsername(" ");
+
+  await clickOnSignUpButton();
+
+  expect(screen.getByText("Username is required")).toBeInTheDocument();
+});
+
+test("Show an error message when password is empty", async () => {
+  render(<Signup />);
+  typePassword(" ");
+
+  await clickOnSignUpButton();
+
+  expect(screen.getByText("Password is required")).toBeInTheDocument();
+});
+
+test("Show an error message when password is lower than minimum", async () => {
+  render(<Signup />);
+  await typePassword("1234567");
+
+  await clickOnSignUpButton();
+
+  expect(screen.getByText("Password is too short")).toBeInTheDocument();
+});
+
+async function typeUsername(username: string) {
+  const usernameInput = await screen.findByPlaceholderText(
+    "Insert your username"
+  );
+
+  await userEvent.type(usernameInput, username);
+}
+
+async function typePassword(password: string) {
+  const passwordInput = await screen.findByPlaceholderText(
+    "Insert your password"
+  );
+  await userEvent.type(passwordInput, password);
+}
+
+async function clickOnSignUpButton() {
+  const submitButton = await screen.findByText("Sign Up");
+  await userEvent.click(submitButton);
+}

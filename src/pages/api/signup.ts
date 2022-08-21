@@ -4,10 +4,14 @@ interface User {
   id: string;
 }
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<User>
+  res: NextApiResponse
 ) {
-  const user = { id: "id" };
-  res.status(200).json(user);
+  const response = await fetch("http://localhost:8080/users", {
+    method: "POST",
+    body: req.body,
+  });
+
+  res.status(response.status).json(null);
 }

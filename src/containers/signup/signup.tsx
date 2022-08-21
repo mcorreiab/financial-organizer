@@ -1,28 +1,8 @@
-import {
-  Input,
-  Button,
-  Text,
-  Heading,
-  Divider,
-  Box,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
+import { Text, Heading, Divider, Box, Grid, GridItem } from "@chakra-ui/react";
 import Image from "next/image";
-import { useState } from "react";
 import styled from "styled-components";
 import { CreateUser } from "@/model/user";
-
-const Label = styled.label`
-  font-weight: 500;
-`;
-
-const Form = styled.form`
-  display: flex;
-  gap: 1.5rem;
-  align-items: stretch;
-  flex-direction: column;
-`;
+import UserForm, { FormFields } from "./components/UserForm/userForm";
 
 const Main = styled.main`
   margin: 2rem;
@@ -31,27 +11,19 @@ const Main = styled.main`
   align-items: center;
 `;
 
+const submitUser = ({ username, password }: FormFields) => {
+  const payload: CreateUser = {
+    username,
+    password,
+  };
+
+  fetch("/api/signup", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+};
+
 const SignUp: React.FunctionComponent = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const changeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
-
-  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const onSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const payload: CreateUser = { username, password };
-    fetch("/api/signup", {
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
-  };
-
   return (
     <Main>
       <Grid
@@ -89,28 +61,7 @@ const SignUp: React.FunctionComponent = () => {
           <Heading as="h1">Sign up</Heading>
           <Text>Create an account to start using the financial organizer</Text>
           <Divider />
-          <Form>
-            <Label>
-              Username*
-              <Input
-                placeholder="Insert your username"
-                value={username}
-                onChange={changeUsername}
-              />
-            </Label>
-            <Label>
-              Password*
-              <Input
-                placeholder="Insert your password"
-                type="password"
-                value={password}
-                onChange={changePassword}
-              />
-            </Label>
-            <Button type="submit" colorScheme="green" onClick={onSubmit}>
-              Sign Up
-            </Button>
-          </Form>
+          <UserForm onSubmit={submitUser} />
         </GridItem>
       </Grid>
     </Main>

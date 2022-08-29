@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook  -s",
+    "build-storybook": "build-storybook",
     "chromatic": "chromatic",
     "test": "jest"
   },

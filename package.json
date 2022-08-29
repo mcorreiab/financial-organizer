@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "storybook": "start-storybook -p 6006  -s ./public",
-    "build-storybook": "build-storybook  -s ./public",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook  -s",
     "chromatic": "chromatic",
     "test": "jest"
   },
@@ -56,8 +56,12 @@
     "jest": "28.1.3",
     "jest-environment-jsdom": "28.1.3",
     "lint-staged": "13.0.3",
+    "msw-storybook-addon": "1.6.3",
     "prettier": "2.7.1",
     "typescript": "4.7.4",
     "webpack": "5.74.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

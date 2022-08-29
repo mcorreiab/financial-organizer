@@ -3,25 +3,16 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Signup from "./signup";
 
-test("send user data when form is filled", async () => {
-  const mockFetch = jest.fn();
-  global.fetch = mockFetch;
+test("should successfuly save a user", async () => {
   render(<Signup />);
 
-  const username = "username";
+  await fillTheFormAndSubmitUserData(201);
 
-  await typeUsername(username);
-
-  const password = "password";
-
-  await typePassword(password);
-
-  await clickOnSignUpButton();
-
-  const payload: CreateUser = { username, password };
-  expect(mockFetch).toHaveBeenCalledWith("/api/signup", {
-    method: "POST",
-    body: JSON.stringify(payload),
+  await waitFor(() => {
+    expect(
+      screen.getByText("You successfuly created an account!")
+    ).toBeVisible();
+    expect(screen.getByText("Go to Sign in")).toBeVisible();
   });
 });
 
@@ -51,6 +42,40 @@ test("Show an error message when password is lower than minimum", async () => {
 
   expect(screen.getByText("Password is too short")).toBeInTheDocument();
 });
+
+test("Show an error message when a generic submit error occurs", async () => {
+  render(<Signup />);
+
+  await fillTheFormAndSubmitUserData(500);
+
+  await waitFor(() => {
+    expect(
+      screen.getByText("There was an error processing your request")
+    ).toBeVisible();
+  });
+});
+
+test("Show an error message when a generic submit error occurs", async () => {
+  render(<Signup />);
+
+  await fillTheFormAndSubmitUserData(409);
+
+  await waitFor(() => {
+    expect(screen.getByText("User already exists")).toBeVisible();
+  });
+});
+
+async function fillTheFormAndSubmitUserData(status: number) {
+  const mockFetch = jest.fn();
+  global.fetch = mockFetch;
+  mockFetch.mockResolvedValue({ status });
+
+  await typeUsername("username");
+
+  await typePassword("password");
+
+  await clickOnSignUpButton();
+}
 
 async function typeUsername(username: string) {
   const usernameInput = await screen.findByPlaceholderText(

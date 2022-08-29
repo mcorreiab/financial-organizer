@@ -10,6 +10,8 @@ export interface FormFields {
 }
 
 interface Props {
+  initialUsername: string;
+  initialPassword: string;
   onSubmit: (data: FormFields) => void;
 }
 
@@ -28,11 +30,15 @@ const Form = styled.form`
   flex-direction: column;
 `;
 
-const UserForm: React.FunctionComponent<Props> = ({ onSubmit }) => {
+const UserForm: React.FunctionComponent<Props> = ({
+  onSubmit,
+  initialPassword,
+  initialUsername,
+}) => {
   const formik = useFormik<FormFields>({
     initialValues: {
-      username: "",
-      password: "",
+      username: initialUsername,
+      password: initialPassword,
     },
     validationSchema,
     onSubmit: (values) => onSubmit(values),

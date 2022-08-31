@@ -1,4 +1,4 @@
-import * as NextImage from "next/image";
+import * as NextImage from "next/future/image";
 
 import { initialize, mswDecorator } from "msw-storybook-addon";
 
@@ -10,7 +10,7 @@ const OriginalNextImage = NextImage.default;
 
 Object.defineProperty(NextImage, "default", {
   configurable: true,
-  value: (props) => <OriginalNextImage {...props} unoptimized />,
+  value: (props) => <img {...props} />,
 });
 
 export const parameters = {

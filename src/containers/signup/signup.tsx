@@ -1,5 +1,5 @@
 import { Box, Grid, GridItem } from "@chakra-ui/react";
-import Image from "next/image";
+import Image from "next/future/image";
 import styled from "styled-components";
 import SignUpForm from "./components/form/signUpForm";
 
@@ -25,16 +25,15 @@ const SignUp: React.FunctionComponent = () => (
         colStart={{ xl: 2 }}
         placeSelf={{ xl: "stretch" }}
       >
-        <Box flexGrow={1}>
-          <Image
-            src="/piggy-bank.jpg"
-            height={200}
-            width={200}
-            alt=""
-            layout="responsive"
-            priority={true}
-          />
-        </Box>
+        <Image
+          src="/piggy-bank.jpg"
+          height={200}
+          width={200}
+          alt=""
+          style={{ width: "100%", height: "auto" }}
+          priority={true}
+          sizes="100vw"
+        />
       </GridItem>
       <GridItem
         colStart={{ xl: 1 }}

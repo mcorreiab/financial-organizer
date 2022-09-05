@@ -4,6 +4,7 @@ import { rest } from "msw";
 import SignUp from "./signup";
 
 export default {
+  title: "Financial Organizer/Auth/Sign up",
   component: SignUp,
 };
 

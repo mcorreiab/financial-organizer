@@ -1,16 +1,10 @@
-import {
-  Text,
-  Heading,
-  Divider,
-  Button,
-  Alert,
-  AlertIcon,
-  Spinner,
-} from "@chakra-ui/react";
+import { Heading, Button, Alert, AlertIcon, Spinner } from "@chakra-ui/react";
 import { CreateUser } from "@/model/user";
-import { FormFields } from "./userForm";
+import AuthForm, {
+  FormFields,
+  basePasswordSchema,
+} from "@/components/authForm/authForm";
 import { useState } from "react";
-import FormProgress from "./formInProgress";
 
 export type States = "loading" | "filling" | "success" | "duplicated" | "error";
 
@@ -51,6 +45,20 @@ const Form: React.FunctionComponent<Props> = ({ url }) => {
     }
   };
 
+  const AuthSignupForm = ({ children }: { children?: React.ReactNode }) => (
+    <AuthForm
+      initialPassword={password}
+      initialUsername={username}
+      onSubmit={submitUser}
+      title="Sign up"
+      description="Create an account to start using the financial organizer"
+      buttonTitle="Sign Up"
+      passwordSchema={basePasswordSchema.min(8, "Password is too short")}
+    >
+      {children}
+    </AuthForm>
+  );
+
   switch (state) {
     case "loading":
       return (
@@ -63,13 +71,7 @@ const Form: React.FunctionComponent<Props> = ({ url }) => {
         />
       );
     case "filling":
-      return (
-        <FormProgress
-          initialPassword={password}
-          initialUsername={username}
-          onSubmit={submitUser}
-        />
-      );
+      return <AuthSignupForm />;
     case "success":
       return (
         <>
@@ -79,29 +81,21 @@ const Form: React.FunctionComponent<Props> = ({ url }) => {
       );
     case "duplicated":
       return (
-        <FormProgress
-          initialPassword={password}
-          initialUsername={username}
-          onSubmit={submitUser}
-        >
+        <AuthSignupForm>
           <Alert status="error">
             <AlertIcon />
             User already exists
           </Alert>
-        </FormProgress>
+        </AuthSignupForm>
       );
-    default:
+    case "error":
       return (
-        <FormProgress
-          initialPassword={password}
-          initialUsername={username}
-          onSubmit={submitUser}
-        >
+        <AuthSignupForm>
           <Alert status="error">
             <AlertIcon />
             There was an error processing your request
           </Alert>
-        </FormProgress>
+        </AuthSignupForm>
       );
   }
 };

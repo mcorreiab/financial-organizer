@@ -24,6 +24,11 @@ module.exports = {
     const nextConfigPath = path.resolve(__dirname, "../next.config.js");
     const nextConfig = require(nextConfigPath);
 
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@/components": path.resolve(__dirname, "../src/components"),
+    };
+
     config.plugins.push(
       new webpack.DefinePlugin({
         "process.env.__NEXT_IMAGE_OPTS": JSON.stringify({

@@ -3,6 +3,8 @@ import { useFormik } from "formik";
 import styled from "styled-components";
 import { Button } from "@chakra-ui/react";
 import FormLabel from "./formLabel";
+import { RequiredStringSchema } from "yup/lib/string";
+import { AnyObject } from "yup/lib/types";
 
 export interface FormFields {
   username: string;
@@ -12,16 +14,14 @@ export interface FormFields {
 interface Props {
   initialUsername: string;
   initialPassword: string;
+  buttonTitle: string;
   onSubmit: (data: FormFields) => void;
+  passwordSchema: RequiredStringSchema<string | undefined, AnyObject>;
 }
 
-const validationSchema = Yup.object().shape({
-  username: Yup.string().trim().required("Username is required"),
-  password: Yup.string()
-    .trim()
-    .required("Password is required")
-    .min(8, "Password is too short"),
-});
+export const basePasswordSchema = Yup.string()
+  .trim()
+  .required("Password is required");
 
 const Form = styled.form`
   display: flex;
@@ -34,7 +34,14 @@ const UserForm: React.FunctionComponent<Props> = ({
   onSubmit,
   initialPassword,
   initialUsername,
+  buttonTitle,
+  passwordSchema,
 }) => {
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().trim().required("Username is required"),
+    password: passwordSchema,
+  });
+
   const formik = useFormik<FormFields>({
     initialValues: {
       username: initialUsername,
@@ -65,7 +72,7 @@ const UserForm: React.FunctionComponent<Props> = ({
         onChange={formik.handleChange}
       />
       <Button type="submit" colorScheme="green">
-        Sign Up
+        {buttonTitle}
       </Button>
     </Form>
   );

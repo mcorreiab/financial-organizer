@@ -19,6 +19,7 @@ const PiggyBank: React.FC<Props> = ({ children }) => (
       templateColumns={{ xl: "500px 700px" }}
       alignItems="center"
       justifyContent="space-around"
+      justifyItems="center"
     >
       <GridItem
         display="flex"

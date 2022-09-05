@@ -1,4 +1,11 @@
-import { Heading, Button, Alert, AlertIcon, Spinner } from "@chakra-ui/react";
+import {
+  Heading,
+  Button,
+  Alert,
+  AlertIcon,
+  Spinner,
+  Container,
+} from "@chakra-ui/react";
 import { CreateUser } from "@/model/user";
 import AuthForm, {
   FormFields,
@@ -74,10 +81,12 @@ const Form: React.FunctionComponent<Props> = ({ url }) => {
       return <AuthSignupForm />;
     case "success":
       return (
-        <>
-          <Heading as="h1">You successfuly created an account!</Heading>
+        <Container centerContent gap="16px">
+          <Heading as="h1" textAlign="center">
+            You successfuly created an account!
+          </Heading>
           <Button colorScheme="green">Go to Sign in</Button>
-        </>
+        </Container>
       );
     case "duplicated":
       return (

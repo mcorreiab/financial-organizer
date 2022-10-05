@@ -1,6 +1,12 @@
 import { NextPage } from "next";
-import Signup from "@/containers/signup/signup";
+import Auth from "@/containers/auth/auth";
 
-const Login: NextPage = () => <Signup />;
+const Login: NextPage = () => (
+  <Auth
+    url="/api/signup"
+    title="Sign up"
+    description="Create an account to start using the financial organizer"
+  />
+);
 
 export default Login;

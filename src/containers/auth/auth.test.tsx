@@ -1,10 +1,13 @@
-import { CreateUser } from "@/model/user";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Signup from "./signup";
+import Auth from "./auth";
 
-test("should successfuly save a user", async () => {
-  render(<Signup />);
+const buttonName = "button";
+
+test("user should successfuly do auth action", async () => {
+  render(
+    <Auth description="description" title={buttonName} url="http://url.com" />
+  );
 
   await fillTheFormAndSubmitUserData(201);
 
@@ -12,39 +15,46 @@ test("should successfuly save a user", async () => {
     expect(
       screen.getByText("You successfuly created an account!")
     ).toBeVisible();
-    expect(screen.getByText("Go to Sign in")).toBeVisible();
   });
 });
 
 test("Show an error message when username is empty", async () => {
-  render(<Signup />);
+  render(
+    <Auth description="description" title={buttonName} url="http://url.com" />
+  );
   await typeUsername(" ");
 
-  await clickOnSignUpButton();
+  await clickOnAuthButton();
 
   expect(screen.getByText("Username is required")).toBeInTheDocument();
 });
 
 test("Show an error message when password is empty", async () => {
-  render(<Signup />);
+  render(
+    <Auth description="description" title={buttonName} url="http://url.com" />
+  );
   typePassword(" ");
 
-  await clickOnSignUpButton();
+  await clickOnAuthButton();
 
   expect(screen.getByText("Password is required")).toBeInTheDocument();
 });
 
 test("Show an error message when password is lower than minimum", async () => {
-  render(<Signup />);
+  render(
+    <Auth description="description" title={buttonName} url="http://url.com" />
+  );
   await typePassword("1234567");
 
-  await clickOnSignUpButton();
+  await clickOnAuthButton();
 
   expect(screen.getByText("Password is too short")).toBeInTheDocument();
 });
 
 test("Show an error message when a generic submit error occurs", async () => {
-  render(<Signup />);
+  render(
+    <Auth description="description" title={buttonName} url="http://url.com" />
+  );
 
   await fillTheFormAndSubmitUserData(500);
 
@@ -55,26 +65,44 @@ test("Show an error message when a generic submit error occurs", async () => {
   });
 });
 
-test("Show an error message when a generic submit error occurs", async () => {
-  render(<Signup />);
+test("should show an error when receives an auth error", async () => {
+  render(
+    <Auth description="description" title={buttonName} url="http://url.com" />
+  );
 
-  await fillTheFormAndSubmitUserData(409);
+  await fillTheFormAndSubmitUserData(403, "auth_error");
+
+  await waitFor(() => {
+    expect(screen.getByText("Invalid username or password")).toBeVisible();
+  });
+});
+
+test("Show an error message when user already exists", async () => {
+  render(
+    <Auth description="description" title={buttonName} url="http://url.com" />
+  );
+
+  await fillTheFormAndSubmitUserData(409, "user_exists");
 
   await waitFor(() => {
     expect(screen.getByText("User already exists")).toBeVisible();
   });
 });
 
-async function fillTheFormAndSubmitUserData(status: number) {
+async function fillTheFormAndSubmitUserData(
+  status: number,
+  errorCode: string | null = null
+) {
   const mockFetch = jest.fn();
   global.fetch = mockFetch;
-  mockFetch.mockResolvedValue({ status });
+  const json = () => Promise.resolve({ errorCode });
+  mockFetch.mockResolvedValue({ status, json });
 
   await typeUsername("username");
 
   await typePassword("password");
 
-  await clickOnSignUpButton();
+  await clickOnAuthButton();
 }
 
 async function typeUsername(username: string) {
@@ -92,7 +120,7 @@ async function typePassword(password: string) {
   await userEvent.type(passwordInput, password);
 }
 
-async function clickOnSignUpButton() {
-  const submitButton = await screen.findByText("Sign Up");
+async function clickOnAuthButton() {
+  const submitButton = await screen.findByRole("button", { name: buttonName });
   await userEvent.click(submitButton);
 }

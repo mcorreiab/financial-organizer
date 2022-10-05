@@ -9,5 +9,5 @@ export default async function handler(
     body: req.body,
   });
 
-  res.status(response.status).json(null);
+  res.status(response.status).json(response.body);
 }

@@ -1,6 +1,12 @@
 import { NextPage } from "next";
-import SigniComponent from "@/containers/signin/signin";
+import Auth from "@/containers/auth/auth";
 
-const Signin: NextPage = () => <SigniComponent />;
+const Signin: NextPage = () => (
+  <Auth
+    url="/api/signin"
+    title="Sign in"
+    description="Sign in to access your finances"
+  />
+);
 
 export default Signin;

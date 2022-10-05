@@ -27,5 +27,5 @@ export default async function handler(
     );
   }
 
-  res.status(response.status).json(null);
+  res.status(response.status).json(response.body);
 }

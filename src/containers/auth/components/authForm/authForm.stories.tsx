@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { screen, userEvent } from "@storybook/testing-library";
-import { rest } from "msw";
 import AuthForm from "./authForm";
 
 const url = "/url";

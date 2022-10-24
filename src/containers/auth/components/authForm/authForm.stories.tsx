@@ -2,7 +2,6 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { screen, userEvent } from "@storybook/testing-library";
 import AuthForm from "./authForm";
 
-const url = "/url";
 const title = "Title";
 
 export default {

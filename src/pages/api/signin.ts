@@ -23,7 +23,9 @@ export default async function handler(
     date.setSeconds(date.getSeconds() + responseBody.expires_in);
     res.setHeader(
       "Set-Cookie",
-      `access_token=${responseBody.access_token}; Expires=${date.toUTCString()}`
+      `access_token=${
+        responseBody.access_token
+      }; Expires=${date.toUTCString()}; HttpOnly`
     );
   }
 

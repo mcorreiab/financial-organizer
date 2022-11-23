@@ -25,7 +25,7 @@ export default async function handler(
       "Set-Cookie",
       `access_token=${
         responseBody.access_token
-      }; Expires=${date.toUTCString()}; HttpOnly`
+      }; Expires=${date.toUTCString()}; HttpOnly; Path=/; Secure`
     );
   }
 

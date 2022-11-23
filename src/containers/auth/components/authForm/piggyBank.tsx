@@ -1,5 +1,5 @@
 import { Grid, GridItem, Container } from "@chakra-ui/react";
-import Image from "next/future/image";
+import Image from "next/image";
 
 interface Props {
   children?: React.ReactNode;

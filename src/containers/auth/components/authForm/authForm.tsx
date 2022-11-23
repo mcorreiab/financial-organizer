@@ -1,10 +1,9 @@
 import {
   Heading,
-  Button,
   Alert,
   AlertIcon,
-  Spinner,
   Container,
+  Spinner,
   Box,
   Text,
   Divider,
@@ -21,6 +20,7 @@ interface Props {
   buttonTitle: string;
   errorMessage?: string;
   state: States;
+  children: React.ReactNode;
 }
 
 export type States = "loading" | "filling" | "success" | "error";
@@ -34,6 +34,7 @@ const Form: React.FC<Props> = ({
   title,
   errorMessage,
   state,
+  children,
 }) => {
   const FormBeingFilled = ({ children }: { children?: React.ReactNode }) => (
     <Box display="flex" alignItems="center" flexDirection="column" gap="1.5rem">
@@ -73,10 +74,7 @@ const Form: React.FC<Props> = ({
       return (
         <PiggyBank>
           <Container centerContent gap="16px">
-            <Heading as="h1" textAlign="center">
-              You successfuly created an account!
-            </Heading>
-            <Button colorScheme="green">Go to Sign in</Button>
+            {children}
           </Container>
         </PiggyBank>
       );

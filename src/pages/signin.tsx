@@ -1,12 +1,6 @@
 import { NextPage } from "next";
-import Auth from "@/containers/auth/auth";
+import Auth from "@/containers/auth/auth.signin";
 
-const Signin: NextPage = () => (
-  <Auth
-    url="/api/signin"
-    title="Sign in"
-    description="Sign in to access your finances"
-  />
-);
+const Signin: NextPage = () => <Auth />;
 
 export default Signin;

@@ -6,6 +6,8 @@ interface Props {
   url: string;
   title: string;
   description: string;
+  children?: React.ReactNode;
+  onSuccessCallback?: () => void;
 }
 
 interface ErrorDetail {
@@ -14,7 +16,13 @@ interface ErrorDetail {
 
 export type States = "loading" | "filling" | "success" | "error";
 
-const Auth: React.FC<Props> = ({ url, description, title }) => {
+const Auth: React.FC<Props> = ({
+  url,
+  description,
+  title,
+  children,
+  onSuccessCallback: successCallback,
+}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [state, setState] = useState<States>("filling");
@@ -38,6 +46,7 @@ const Auth: React.FC<Props> = ({ url, description, title }) => {
     switch (response.status) {
       case 201:
         setState("success");
+        successCallback && successCallback();
         break;
       default:
         setState("error");
@@ -70,7 +79,9 @@ const Auth: React.FC<Props> = ({ url, description, title }) => {
         errorMessage={errorMessage}
         initialPassword={password}
         initialUsername={username}
-      />
+      >
+        {children}
+      </AuthForm>
     </main>
   );
 };

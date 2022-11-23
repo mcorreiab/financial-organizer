@@ -6,7 +6,9 @@ const buttonName = "button";
 
 test("user should successfuly do auth action", async () => {
   render(
-    <Auth description="description" title={buttonName} url="http://url.com" />
+    <Auth description="description" title={buttonName} url="http://url.com">
+      You successfuly created an account!
+    </Auth>
   );
 
   await fillTheFormAndSubmitUserData(201);

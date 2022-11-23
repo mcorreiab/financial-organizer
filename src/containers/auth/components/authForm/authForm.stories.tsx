@@ -16,7 +16,7 @@ export default {
 } as ComponentMeta<typeof AuthForm>;
 
 const Template: ComponentStory<typeof AuthForm> = (args) => (
-  <AuthForm {...args} />
+  <AuthForm {...args}>{"<Success children component>"}</AuthForm>
 );
 
 export const EmptyForm = Template.bind({});

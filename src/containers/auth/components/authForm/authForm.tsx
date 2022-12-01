@@ -12,8 +12,8 @@ import Auth, { FormFields } from "./auth";
 import PiggyBank from "./piggyBank";
 
 interface Props {
-  initialUsername?: string;
-  initialPassword?: string;
+  initialUsername: string;
+  initialPassword: string;
   onSubmit: (data: FormFields) => void;
   title: string;
   description: string;
@@ -27,8 +27,8 @@ export type States = "loading" | "filling" | "success" | "error";
 export type { FormFields };
 
 const Form: React.FC<Props> = ({
-  initialUsername = "",
-  initialPassword = "",
+  initialUsername,
+  initialPassword,
   description,
   onSubmit,
   title,

@@ -14,3 +14,21 @@ test("Value should be a positive number", async () => {
 
   expect(screen.getByText("Value must be at least 1")).toBeInTheDocument();
 });
+
+test("should fill the form and submit with success", async () => {
+  const fetch = jest.fn();
+  global.fetch = fetch;
+
+  render(<InsertExpense />);
+
+  const expenseInput = await screen.findByPlaceholderText("Expense name");
+  await userEvent.type(expenseInput, "Name to save");
+
+  const valueInput = await screen.findByPlaceholderText("Value");
+  await userEvent.type(valueInput, "55");
+
+  const saveButton = await screen.findByRole("button", { name: "Save" });
+  await userEvent.click(saveButton);
+
+  expect(fetch).toBeCalled();
+});

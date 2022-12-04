@@ -7,7 +7,9 @@ import {
   Box,
   Text,
   Divider,
+  Link,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import Auth, { FormFields } from "./auth";
 import PiggyBank from "./piggyBank";
 
@@ -21,6 +23,7 @@ interface Props {
   errorMessage?: string;
   state: States;
   children: React.ReactNode;
+  actionRedirect: React.ReactNode;
 }
 
 export type States = "loading" | "filling" | "success" | "error";
@@ -35,6 +38,7 @@ const Form: React.FC<Props> = ({
   errorMessage,
   state,
   children,
+  actionRedirect,
 }) => {
   const FormBeingFilled = ({ children }: { children?: React.ReactNode }) => (
     <Box display="flex" alignItems="center" flexDirection="column" gap="1.5rem">
@@ -48,6 +52,7 @@ const Form: React.FC<Props> = ({
         initialUsername={initialUsername}
         buttonTitle={title}
       />
+      {actionRedirect}
     </Box>
   );
 

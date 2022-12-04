@@ -8,6 +8,7 @@ interface Props {
   description: string;
   children?: React.ReactNode;
   onSuccessCallback?: () => void;
+  actionRedirect: React.ReactNode;
 }
 
 interface ErrorDetail {
@@ -22,6 +23,7 @@ const Auth: React.FC<Props> = ({
   title,
   children,
   onSuccessCallback: successCallback,
+  actionRedirect,
 }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -79,6 +81,7 @@ const Auth: React.FC<Props> = ({
         errorMessage={errorMessage}
         initialPassword={password}
         initialUsername={username}
+        actionRedirect={actionRedirect}
       >
         {children}
       </AuthForm>

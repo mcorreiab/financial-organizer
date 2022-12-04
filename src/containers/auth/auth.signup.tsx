@@ -1,4 +1,5 @@
 import { Heading, Button } from "@chakra-ui/react";
+import Link from "next/link";
 import Auth from "./auth";
 
 const SignIn: React.FC = () => (
@@ -10,7 +11,9 @@ const SignIn: React.FC = () => (
     <Heading as="h1" textAlign="center">
       You successfuly created an account!
     </Heading>
-    <Button colorScheme="green">Go to Sign in</Button>
+    <Button colorScheme="green" as={Link} href="/signin">
+      Go to Sign in
+    </Button>
   </Auth>
 );
 

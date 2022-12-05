@@ -6,7 +6,12 @@ const buttonName = "button";
 
 test("user should successfuly do auth action", async () => {
   render(
-    <Auth description="description" title={buttonName} url="http://url.com">
+    <Auth
+      description="description"
+      title={buttonName}
+      url="http://url.com"
+      actionRedirect={null}
+    >
       You successfuly created an account!
     </Auth>
   );
@@ -22,40 +27,60 @@ test("user should successfuly do auth action", async () => {
 
 test("Show an error message when username is empty", async () => {
   render(
-    <Auth description="description" title={buttonName} url="http://url.com" />
+    <Auth
+      description="description"
+      title={buttonName}
+      url="http://url.com"
+      actionRedirect={null}
+    />
   );
   await typeUsername(" ");
 
-  await clickOnAuthButton();
+  await clickOnSubmitButton();
 
   expect(screen.getByText("Username is required")).toBeInTheDocument();
 });
 
 test("Show an error message when password is empty", async () => {
   render(
-    <Auth description="description" title={buttonName} url="http://url.com" />
+    <Auth
+      description="description"
+      title={buttonName}
+      url="http://url.com"
+      actionRedirect={null}
+    />
   );
   typePassword(" ");
 
-  await clickOnAuthButton();
+  await clickOnSubmitButton();
 
   expect(screen.getByText("Password is required")).toBeInTheDocument();
 });
 
 test("Show an error message when password is lower than minimum", async () => {
   render(
-    <Auth description="description" title={buttonName} url="http://url.com" />
+    <Auth
+      description="description"
+      title={buttonName}
+      url="http://url.com"
+      actionRedirect={null}
+    />
   );
   await typePassword("1234567");
 
-  await clickOnAuthButton();
+  await clickOnSubmitButton();
 
   expect(screen.getByText("Password is too short")).toBeInTheDocument();
 });
 
 test("Show an error message when a generic submit error occurs", async () => {
   render(
-    <Auth description="description" title={buttonName} url="http://url.com" />
+    <Auth
+      description="description"
+      title={buttonName}
+      url="http://url.com"
+      actionRedirect={null}
+    />
   );
 
   await fillTheFormAndSubmitUserData(500);
@@ -69,7 +94,12 @@ test("Show an error message when a generic submit error occurs", async () => {
 
 test("should show an error when receives an auth error", async () => {
   render(
-    <Auth description="description" title={buttonName} url="http://url.com" />
+    <Auth
+      description="description"
+      title={buttonName}
+      url="http://url.com"
+      actionRedirect={null}
+    />
   );
 
   await fillTheFormAndSubmitUserData(403, "auth_error");
@@ -81,7 +111,12 @@ test("should show an error when receives an auth error", async () => {
 
 test("Show an error message when user already exists", async () => {
   render(
-    <Auth description="description" title={buttonName} url="http://url.com" />
+    <Auth
+      description="description"
+      title={buttonName}
+      url="http://url.com"
+      actionRedirect={null}
+    />
   );
 
   await fillTheFormAndSubmitUserData(409, "user_exists");
@@ -104,7 +139,7 @@ async function fillTheFormAndSubmitUserData(
 
   await typePassword("password");
 
-  await clickOnAuthButton();
+  await clickOnSubmitButton();
 }
 
 async function typeUsername(username: string) {
@@ -122,7 +157,7 @@ async function typePassword(password: string) {
   await userEvent.type(passwordInput, password);
 }
 
-async function clickOnAuthButton() {
+async function clickOnSubmitButton() {
   const submitButton = await screen.findByRole("button", { name: buttonName });
   await userEvent.click(submitButton);
 }

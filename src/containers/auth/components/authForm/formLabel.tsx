@@ -1,6 +1,5 @@
-import { Input, Text, InputGroup, InputRightElement } from "@chakra-ui/react";
-import { WarningIcon } from "@chakra-ui/icons";
-import styled from "styled-components";
+import { Input, Text, InputGroup, FormLabel } from "@chakra-ui/react";
+import { Field } from "formik";
 
 interface Props {
   title: string;
@@ -10,13 +9,11 @@ interface Props {
   value: string;
   error: string | undefined;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
+  children?: React.ReactNode;
 }
 
-const Label = styled.label`
-  font-weight: 500;
-`;
-
-const FormLabel: React.FunctionComponent<Props> = ({
+const Label: React.FunctionComponent<Props> = ({
   title,
   placeholder,
   name,
@@ -24,29 +21,29 @@ const FormLabel: React.FunctionComponent<Props> = ({
   value,
   onChange,
   error,
+  type = "text",
+  children,
 }) => (
-  <Label>
+  <FormLabel>
     {title}
     <InputGroup>
-      <Input
+      <Field
+        as={Input}
         placeholder={placeholder}
         name={name}
         isInvalid={touched && error != undefined}
         value={value}
         onChange={onChange}
+        type={type}
       />
-      {touched && error ? (
-        <InputRightElement>
-          <WarningIcon color="red.500" />
-        </InputRightElement>
-      ) : null}
+      {children}
     </InputGroup>
     {touched && error ? (
       <div>
         <Text color="red">{error}</Text>
       </div>
     ) : null}
-  </Label>
+  </FormLabel>
 );
 
-export default FormLabel;
+export default Label;

@@ -1,7 +1,8 @@
 import * as Yup from "yup";
-import { useFormik } from "formik";
+import { Formik } from "formik";
 import styled from "styled-components";
-import { Button } from "@chakra-ui/react";
+import { Button, InputRightElement, useBoolean } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import FormLabel from "./formLabel";
 
 export interface FormFields {
@@ -29,6 +30,7 @@ const UserForm: React.FunctionComponent<Props> = ({
   initialUsername,
   buttonTitle,
 }) => {
+  const [showPassword, setshowPassword] = useBoolean(false);
   const validationSchema = Yup.object().shape({
     username: Yup.string().trim().required("Username is required"),
     password: Yup.string()
@@ -37,39 +39,57 @@ const UserForm: React.FunctionComponent<Props> = ({
       .min(8, "Password is too short"),
   });
 
-  const formik = useFormik<FormFields>({
-    initialValues: {
-      username: initialUsername,
-      password: initialPassword,
-    },
-    validationSchema,
-    onSubmit: (values) => onSubmit(values),
-  });
-
   return (
-    <Form onSubmit={formik.handleSubmit}>
-      <FormLabel
-        title="Username"
-        placeholder="Insert your username"
-        name="username"
-        touched={formik.touched.username}
-        value={formik.values.username}
-        error={formik.errors.username}
-        onChange={formik.handleChange}
-      />
-      <FormLabel
-        title="Password"
-        placeholder="Insert your password"
-        name="password"
-        touched={formik.touched.password}
-        value={formik.values.password}
-        error={formik.errors.password}
-        onChange={formik.handleChange}
-      />
-      <Button type="submit" colorScheme="green">
-        {buttonTitle}
-      </Button>
-    </Form>
+    <Formik
+      initialValues={{
+        username: initialUsername,
+        password: initialPassword,
+      }}
+      validationSchema={validationSchema}
+      onSubmit={(values) => onSubmit(values)}
+    >
+      {({ handleSubmit, touched, values, errors, handleChange }) => (
+        <Form onSubmit={handleSubmit}>
+          <FormLabel
+            title="Username"
+            placeholder="Insert your username"
+            name="username"
+            touched={touched.username}
+            value={values.username}
+            error={errors.username}
+            onChange={handleChange}
+          />
+          <FormLabel
+            title="Password"
+            placeholder="Insert your password"
+            name="password"
+            touched={touched.password}
+            value={values.password}
+            error={errors.password}
+            onChange={handleChange}
+            type={showPassword ? "text" : "password"}
+          >
+            <InputRightElement width="4rem">
+              <Button
+                size="sm"
+                onClick={setshowPassword.toggle}
+                variant="ghost"
+                title="Toggle password visibility"
+              >
+                {showPassword ? (
+                  <ViewOffIcon boxSize={4} />
+                ) : (
+                  <ViewIcon boxSize={4} />
+                )}
+              </Button>
+            </InputRightElement>
+          </FormLabel>
+          <Button type="submit" colorScheme="green">
+            {buttonTitle}
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

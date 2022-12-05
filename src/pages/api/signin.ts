@@ -16,18 +16,19 @@ export default async function handler(
     body: req.body,
   });
 
-  let responseBody: Response | null = null;
+  const body = await response.json();
+
   if (response.status === 201) {
-    responseBody = (await response.json()) as Response;
+    const successBody = body as Response;
     const date = new Date();
-    date.setSeconds(date.getSeconds() + responseBody.expires_in);
+    date.setSeconds(date.getSeconds() + successBody.expires_in);
     res.setHeader(
       "Set-Cookie",
       `access_token=${
-        responseBody.access_token
+        successBody.access_token
       }; Expires=${date.toUTCString()}; HttpOnly; Path=/; Secure`
     );
   }
 
-  res.status(response.status).json(response.body);
+  res.status(response.status).json(JSON.stringify(body));
 }

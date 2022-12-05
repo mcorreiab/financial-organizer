@@ -20,5 +20,5 @@ export default async function handler(
     },
   });
 
-  res.status(response.status).json(response.body);
+  res.status(response.status).json(await response.json());
 }

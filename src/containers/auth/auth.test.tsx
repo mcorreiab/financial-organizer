@@ -132,7 +132,7 @@ async function fillTheFormAndSubmitUserData(
 ) {
   const mockFetch = jest.fn();
   global.fetch = mockFetch;
-  const json = () => Promise.resolve({ errorCode });
+  const json = () => Promise.resolve(JSON.stringify({ error_code: errorCode }));
   mockFetch.mockResolvedValue({ status, json });
 
   await typeUsername("username");

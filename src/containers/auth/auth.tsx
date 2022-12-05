@@ -12,7 +12,7 @@ interface Props {
 }
 
 interface ErrorDetail {
-  errorCode: string;
+  error_code: string;
 }
 
 export type States = "loading" | "filling" | "success" | "error";
@@ -52,14 +52,14 @@ const Auth: React.FC<Props> = ({
         break;
       default:
         setState("error");
-        setErrorDetail(await response.json());
+        setErrorDetail(JSON.parse(await response.json()));
         break;
     }
   };
 
   let errorMessage: string;
 
-  switch (errorDetail?.errorCode) {
+  switch (errorDetail?.error_code) {
     case "auth_error":
       errorMessage = "Invalid username or password";
       break;

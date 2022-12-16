@@ -19,9 +19,10 @@ import SideBar from "./sideBar";
 
 type Props = {
   onSubmit: (name: string, value: number) => void;
+  logoutAction: () => void;
 };
 
-const InsertExpense: React.FC<Props> = ({ onSubmit }) => {
+const InsertExpense: React.FC<Props> = ({ onSubmit, logoutAction }) => {
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     event.target.select();
   };
@@ -29,7 +30,7 @@ const InsertExpense: React.FC<Props> = ({ onSubmit }) => {
   return (
     <Box display={{ base: "block", lg: "flex" }}>
       <nav>
-        <SideBar />
+        <SideBar logoutAction={logoutAction} />
       </nav>
       <Box as="main" flexGrow={{ lg: 1 }}>
         <Center minH="100vh" bgColor="gray.100">

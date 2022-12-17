@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import InsertExpense from "@/containers/expense/insertExpense";
+import InsertExpense from "@/containers/expense/insert";
 
 const Home: NextPage = () => <InsertExpense />;
 

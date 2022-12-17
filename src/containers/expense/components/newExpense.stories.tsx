@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { screen, userEvent } from "@storybook/testing-library";
-import InsertExpense from "./insertExpenseForm";
+import InsertExpense from "./newExpense";
 
 export default {
   title: "Financial Organizer/Insertion/Expense",

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import InsertExpenseForm from "./components/insertExpenseForm";
+import InsertExpenseForm from "./components/newExpense";
 
 const InsertExṕense: React.FC = () => {
   const router = useRouter();

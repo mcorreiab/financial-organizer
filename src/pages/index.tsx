@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import InsertExpense from "@/containers/expense/insert";
+import CreateExpense from "@/containers/expense/create";
 
-const Home: NextPage = () => <InsertExpense />;
+const Home: NextPage = () => <CreateExpense />;
 
 export default Home;

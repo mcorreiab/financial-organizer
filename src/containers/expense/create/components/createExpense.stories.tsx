@@ -1,15 +1,15 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { screen, userEvent } from "@storybook/testing-library";
-import InsertExpense from "./newExpense";
+import CreateExpense from "./createExpense";
 
 export default {
-  title: "Financial Organizer/Insertion/Expense",
-  component: InsertExpense,
-} as ComponentMeta<typeof InsertExpense>;
+  title: "Financial Organizer/Expense/Create",
+  component: CreateExpense,
+} as ComponentMeta<typeof CreateExpense>;
 
-const Template: ComponentStory<typeof InsertExpense> = (args) => (
-  <InsertExpense {...args} />
+const Template: ComponentStory<typeof CreateExpense> = (args) => (
+  <CreateExpense {...args} />
 );
 
 export const EmptyForm = Template.bind({});
